@@ -1,5 +1,4 @@
 import time
-import os
 import re
 import keys
 from slackclient import SlackClient
@@ -15,12 +14,12 @@ MENTION_REGEX = "^<@(|[WU].+?)>(.*)"
 def parseSlackingBotCommands(slackEvents):
     for event in slackEvents:
         if event["type"] == "message" and not "subtype" in event:
-            user_id, message = parse_direct_mention(event["text"])
+            user_id, message = parseDM(event["text"])
             if user_id == slackbotId:
                 return message, event["channel"]
     return None, None
 
-def parse_direct_mention(message):
+def parseDM(message):
 
     matches = re.search(MENTION_REGEX, message)
     return (matches.group(1), matches.group(2).strip()) if matches else (None, None)

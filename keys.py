@@ -1,1 +1,0 @@
-slackBotKey = "xoxb-410210673125-411314061972-8ar0pcBg3eGFcHY03ZKjyOhI"
