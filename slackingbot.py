@@ -1,6 +1,8 @@
 import time
 import re
 import keys
+import tweepy
+import json
 from slackclient import SlackClient
 
 
@@ -37,9 +39,18 @@ def handle_command(command, channel):
         text=response or notFoundResponse
     )
 
+def showTweets():
+    auth = tweepy.OAuthHandler(keys.consumerKey,keys.consumerSecret)
+    auth.set_access_token(keys.accessToken,keys.accessTokenSecret)
+    api = tweepy.API(auth)
+    trends = json.loads(json.dumps(api.trends_place(1)))
+    print trends
+
+showTweets()
+
 if __name__ == "__main__":
     if slackClient.rtm_connect(with_team_state=False):
-        print("Starter Bot connected and running!")
+        print("Slack Bot connected and running!")
         slackbotId = slackClient.api_call("auth.test")["user_id"]
         while True:
             command, channel = parseSlackingBotCommands(slackClient.rtm_read())
